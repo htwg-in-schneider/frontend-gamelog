@@ -1,11 +1,17 @@
-<script setup></script>
-
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <!-- Direkt die Übersichtsseite rendern -->
+  <GameOverview />
 </template>
 
-<style scoped></style>
+<script setup>
+import GameOverview from './views/GameOverview.vue';
+</script>
+
+<style>
+/* Optional globaler Dark Mode Hintergrund */
+body {
+  margin: 0;
+  background-color: #1e1e1e;
+  font-family: Arial, sans-serif;
+}
+</style>
