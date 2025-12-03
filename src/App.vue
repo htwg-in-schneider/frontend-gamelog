@@ -1,17 +1,19 @@
 <template>
-  <!-- Direkt die Übersichtsseite rendern -->
-  <GameOverview />
+  <div id="app">
+    <Header />
+
+    <main class="page-content">
+      <!-- Deine Seiten, Slots, Komponenten oder Router Views -->
+      <GameOverview />
+    </main>
+
+    <Footer />
+  </div>
 </template>
 
 <script setup>
-import GameOverview from './views/GameOverview.vue';
+import Header from './components/header.vue'
+import Footer from './components/hooter.vue'
+
 </script>
 
-<style>
-/* Optional globaler Dark Mode Hintergrund */
-body {
-  margin: 0;
-  background-color: #1e1e1e;
-  font-family: Arial, sans-serif;
-}
-</style>
