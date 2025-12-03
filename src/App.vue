@@ -1,19 +1,20 @@
 <template>
-  <div id="app">
-    <Header />
-
-    <main class="page-content">
-      <!-- Deine Seiten, Slots, Komponenten oder Router Views -->
-      <GameOverview />
-    </main>
-
-    <Footer />
+  <div class="app">
+    <Navbar />
+    <router-view /> <!-- Hier wird GameOverview oder GameDetail geladen -->
+    <FooterComponent />
   </div>
 </template>
 
-<script setup>
-import Header from './components/header.vue'
-import Footer from './components/hooter.vue'
+<script>
+import Navbar from './components/Navbar.vue';
+import FooterComponent from './components/footer.vue';
 
+export default {
+  name: 'App',
+  components: {
+    Navbar,
+    FooterComponent,
+  },
+};
 </script>
-

@@ -1,51 +1,43 @@
 <template>
-  <div class="overview-container">
-    <h1>Meine Spiele</h1>
-    <div class="games-grid">
-      <GameCard 
-        v-for="game in games" 
-        :key="game.id" 
-        :game="game" 
-        @select="selectGame" 
-      />
-    </div>
-  </div>
+   <SpecialBanner />
+  <main class="main-grid">
+    <GameCard
+      v-for="game in games"
+      :key="game.id"
+      :game="game"
+      @click.native="goToDetail(game.id)"
+    />
+  </main>
 </template>
 
-<script setup>
-import GameCard from '../components/GameCard.vue';
-import { reactive } from 'vue';
+<script>
+import GameCard from '@/components/GameCard.vue';
+import { games } from '@/data.js';
+import { useRouter } from 'vue-router';
+import SpecialBanner from '@/components/SpecialBanner.vue';
 
-const games = reactive([
-  { id: 1, name: 'Spiel 1' },
-  { id: 2, name: 'Spiel 2' },
-  { id: 3, name: 'Spiel 3' },
-  { id: 4, name: 'Spiel 4' },
-  { id: 5, name: 'Spiel 5' },
-]);
+export default {
+  name: 'GameOverview',
+  components: { GameCard },
+  setup() {
+    const router = useRouter();
 
-function selectGame(game) {
-  alert(`Du hast ${game.name} ausgewählt!`);
-}
+    const goToDetail = (id) => {
+      router.push(`/game/${id}`);
+    };
+
+    return { games, goToDetail };
+  },
+};
 </script>
 
-<style scoped>
-.overview-container {
-  background-color: #1e1e1e;
-  min-height: 100vh;
-  color: #fff;
-  padding: 2rem;
-  font-family: Arial, sans-serif;
-}
-
-h1 {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-.games-grid {
+<style>
+.main-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 </style>

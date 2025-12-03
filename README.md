@@ -1,5 +1,8 @@
 # .
 
+Frontend for gamelog
+
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-blue?style=for-the-badge)](https://htwg-in-schneider.github.io/frontend-gamelog/)
 This template should help get you started developing with Vue 3 in Vite.
 
 ## Recommended IDE Setup
