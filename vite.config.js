@@ -8,7 +8,7 @@ const repoName = '/gamelog-frontend/';
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: process.env.NODE_ENV === 'production' ? repoName : '/',
+  base: process.env.NODE_ENV === 'production' ? repoName : 'htwg-in-schneider/frontend-gamelog',
   plugins: [
     vue(),
     vueDevTools(),
