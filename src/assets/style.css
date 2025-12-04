@@ -1,4 +1,6 @@
-/* Global Reset */
+/* -------------------------------------------------
+   Global Reset
+------------------------------------------------- */
 html, body, #app {
   height: 100%;
   margin: 0;
@@ -8,7 +10,7 @@ html, body, #app {
   color: #fff;
 }
 
-/* Global Layout for Header + Content + Footer */
+/* Layout für Header + Content + Footer */
 #app {
   display: flex;
   flex-direction: column;
@@ -20,8 +22,11 @@ html, body, #app {
   padding: 20px;
 }
 
+/* -------------------------------------------------
+   HEADER
+------------------------------------------------- */
 .header {
-  background-color: #1f1f1f; /* dunkles Grau */
+  background-color: #1f1f1f;
   color: #fff;
   width: 100%;
   padding: 10px 0;
@@ -74,7 +79,9 @@ html, body, #app {
   color: #aaa;
 }
 
-/* Footer */
+/* -------------------------------------------------
+   FOOTER
+------------------------------------------------- */
 .footer {
   background-color: #222;
   color: #fff;
@@ -86,5 +93,177 @@ html, body, #app {
 .container {
   max-width: 1100px;
   margin: auto;
+}
+
+/* -------------------------------------------------
+   SUCHLEISTE + ADD BUTTON
+------------------------------------------------- */
+.search-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.search-input {
+  width: 60%;
+  max-width: 500px;
+  padding: 10px 14px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background: #1e1e1e;
+  color: #fff;
+}
+
+.add-game-btn {
+  display: block;
+  margin: 15px auto;
+  padding: 10px 20px;
+
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+
+  transition: background 0.15s ease;
+}
+
+.add-game-btn:hover {
+  background-color: #0b5ed7;
+}
+
+/* -------------------------------------------------
+   GAME CARD GRID LAYOUT
+------------------------------------------------- */
+.main-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* -------------------------------------------------
+   GAME CARD (Dark Theme)
+   – gehört jetzt bewusst in die globale CSS,
+     damit Card überall gleich aussieht
+------------------------------------------------- */
+.card {
+  width: 220px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 12px;
+  border-radius: 10px;
+
+  background: #1e1e1e;
+  border: 1px solid #333;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
+.image-wrapper {
+  width: 100%;
+  height: 140px;
+  overflow: hidden;
+  border-radius: 6px;
+  background: #2a2a2a;
+}
+
+.card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card .title {
+  font-size: 1rem;
+  margin: 12px 0 10px 0;
+  color: #eee;
+  text-align: center;
+}
+
+.edit-btn {
+  margin-top: auto;
+  padding: 8px 14px;
+  width: 100%;
+
+  background: #0d6efd;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.edit-btn:hover {
+  background: #0b5ed7;
+}
+/* -------------------------------------------------
+   FORMULARE – AddGame & EditGame
+------------------------------------------------- */
+.form-container {
+  max-width: 500px;
+  margin: 30px auto;
+  padding: 20px;
+  background: #1e1e1e;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-container label {
+  margin-top: 12px;
+  font-weight: 500;
+}
+
+.form-container .form-control {
+  width: 100%;
+  padding: 8px 12px;
+  margin-top: 5px;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background: #2a2a2a;
+  color: #fff;
+}
+
+.form-container textarea.form-control {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.form-container button,
+.form-container .save-btn {
+  margin-top: 20px;
+  width: 100%;
+  padding: 10px 20px;
+  background: #0d6efd;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.form-container button:hover,
+.form-container .save-btn:hover {
+  background: #0b5ed7;
 }
 

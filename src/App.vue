@@ -8,7 +8,7 @@
 
 <script>
 import Navbar from './components/Navbar.vue';
-import FooterComponent from './components/footer.vue';
+import FooterComponent from './components/footer.vue'; // Großbuchstaben beachten
 
 export default {
   name: 'App',
@@ -18,3 +18,12 @@ export default {
   },
 };
 </script>
+
+<style>
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #1E1E1E; /* Dark Mode */
+}
+</style>
