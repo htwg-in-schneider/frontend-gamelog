@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import GameOverview from '@/views/GameOverview.vue'; // Übersichtsseite
-import AddGame from '@/views/AddGame.vue';           // Neue Add-Game-Seite
-import GameDetail from '@/views/GameDetail.vue';     // Einzelne Spieleseite
+import GameOverview from '@/views/GameOverview.vue';
+import AddGame from '@/views/AddGame.vue';
+import GameDetail from '@/views/GameDetail.vue';
 
-const repoName = '/gamelog-frontend/'; // GitHub Pages Pfad
+const repoName = '/gamelog-frontend/'; // GitHub Pages Pfad, lokal kannst du auch '/'
 
 const routes = [
   {
@@ -14,7 +14,8 @@ const routes = [
   {
     path: '/game/:id',
     name: 'GameDetail',
-    component: GameDetail, // GameDetail importiert statisch, kann bei Bedarf auch dynamisch
+    component: GameDetail,
+    props: true, // <-- wichtig, damit id als Prop an GameDetail übergeben wird
   },
   {
     path: '/add-game',
@@ -24,7 +25,8 @@ const routes = [
   {
     path: '/edit-game/:id',
     name: 'EditGame',
-    component: () => import('@/views/EditGame.vue'), // dynamischer Import
+    component: () => import('@/views/EditGame.vue'),
+    props: true,
   }
 ];
 

@@ -266,4 +266,18 @@ html, body, #app {
 .form-container .save-btn:hover {
   background: #0b5ed7;
 }
+.details-btn {
+  margin-top: 8px;
+  padding: 8px 14px;
+  width: 100%;
+  background: #198754;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
 
+.details-btn:hover {
+  background: #146c43;
+}
