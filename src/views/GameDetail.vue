@@ -30,7 +30,7 @@ async function fetchGame() {
       <div class="image-wrapper">
         <img :src="game.bildurl" class="card-img" />
       </div>
-      <p><strong>Plattform:</strong> {{ game.platform }}</p>
+      <p><strong>Plattform:</strong> {{ game.platforms.map(p => p.name).join(', ') }} </p>
       <p><strong>Beschreibung:</strong> {{ game.beschreibung }}</p>
       <router-link to="/" class="details-btn">Zurück zur Übersicht</router-link>
     </div>

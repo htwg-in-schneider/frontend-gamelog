@@ -1,25 +1,28 @@
 /* -------------------------------------------------
-   Global Reset
+   Global Reset & Hintergrund
 ------------------------------------------------- */
-html, body, #app {
+html, body {
   height: 100%;
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-  background-color: #121212;
+  background-color: #121212; /* Dark Mode */
   color: #fff;
 }
 
-/* Layout für Header + Content + Footer */
+/* App Wrapper */
 #app {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 100vh; /* Footer bleibt unten */
+  background: #121212; /* Hintergrund für gesamte App */
 }
 
+/* Content Bereich */
 .page-content {
-  flex: 1;
+  flex: 1 0 auto; /* wächst mit Content */
   padding: 20px;
+  background: #121212; /* sicherstellen, dass BG sichtbar bleibt */
 }
 
 /* -------------------------------------------------
@@ -36,7 +39,6 @@ html, body, #app {
 .nav-container {
   max-width: 1100px;
   margin: 0 auto;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -59,7 +61,7 @@ html, body, #app {
   margin: 0;
 }
 
-/* NAVIGATION */
+/* Navigation */
 .nav ul {
   display: flex;
   list-style: none;
@@ -87,10 +89,10 @@ html, body, #app {
   color: #fff;
   padding: 10px 0;
   text-align: center;
-  margin-top: auto;
+  margin-top: auto; /* Footer unten halten */
 }
 
-.container {
+.footer .container {
   max-width: 1100px;
   margin: auto;
 }
@@ -120,13 +122,11 @@ html, body, #app {
   display: block;
   margin: 15px auto;
   padding: 10px 20px;
-
   background-color: #0d6efd;
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-
   transition: background 0.15s ease;
 }
 
@@ -148,23 +148,17 @@ html, body, #app {
 
 /* -------------------------------------------------
    GAME CARD (Dark Theme)
-   – gehört jetzt bewusst in die globale CSS,
-     damit Card überall gleich aussieht
 ------------------------------------------------- */
 .card {
-  width: 220px;
-  height: 300px;
+  width: 100%; /* volle Breite in Grid-Zelle */
   display: flex;
   flex-direction: column;
   align-items: center;
-
   padding: 12px;
   border-radius: 10px;
-
   background: #1e1e1e;
   border: 1px solid #333;
   box-shadow: 0 2px 6px rgba(0,0,0,0.25);
-
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -198,7 +192,6 @@ html, body, #app {
   margin-top: auto;
   padding: 8px 14px;
   width: 100%;
-
   background: #0d6efd;
   color: white;
   border: none;
@@ -209,6 +202,23 @@ html, body, #app {
 .edit-btn:hover {
   background: #0b5ed7;
 }
+
+.details-btn {
+  margin-top: 8px;
+  padding: 8px 14px;
+  width: 100%;
+  background: #198754;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.details-btn:hover {
+  background: #146c43;
+}
+
 /* -------------------------------------------------
    FORMULARE – AddGame & EditGame
 ------------------------------------------------- */
@@ -266,18 +276,26 @@ html, body, #app {
 .form-container .save-btn:hover {
   background: #0b5ed7;
 }
-.details-btn {
-  margin-top: 8px;
-  padding: 8px 14px;
-  width: 100%;
-  background: #198754;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.15s ease;
-}
 
-.details-btn:hover {
-  background: #146c43;
+/* -------------------------------------------------
+   RESPONSIVE Anpassungen
+------------------------------------------------- */
+@media screen and (max-width: 768px) {
+  .main-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    padding: 10px;
+  }
+
+  .card {
+    padding: 10px;
+  }
+
+  .card .title {
+    font-size: 0.9rem;
+  }
+
+  .search-input {
+    width: 80%;
+  }
 }
