@@ -1,7 +1,7 @@
 <template>
   <div class="app">
     <Navbar />
-    <router-view /> <!-- Hier wird GameOverview oder GameDetail geladen -->
+    <router-view /> 
     <FooterComponent />
   </div>
 </template>

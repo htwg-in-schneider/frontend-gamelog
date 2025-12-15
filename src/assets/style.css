@@ -1,51 +1,53 @@
-/* -------------------------------------------------
-   Global Reset & Hintergrund
-------------------------------------------------- */
-html, body {
+/* =================================================
+   GLOBAL RESET & BASIS
+================================================= */
+html,
+body {
   height: 100%;
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-  background-color: #121212; /* Dark Mode */
+  background-color: #121212;
   color: #fff;
 }
 
-/* App Wrapper */
+/* =================================================
+   APP LAYOUT
+================================================= */
 #app {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* Footer bleibt unten */
-  background: #121212; /* Hintergrund für gesamte App */
+  min-height: 100vh;
+  background: #121212;
 }
 
-/* Content Bereich */
 .page-content {
-  flex: 1 0 auto; /* wächst mit Content */
+  flex: 1 0 auto;
   padding: 20px;
-  background: #121212; /* sicherstellen, dass BG sichtbar bleibt */
+  background: #121212;
 }
 
-/* -------------------------------------------------
+/* =================================================
    HEADER
-------------------------------------------------- */
+================================================= */
 .header {
-  background-color: #1f1f1f;
-  color: #fff;
   width: 100%;
   padding: 10px 0;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  background-color: #1f1f1f;
+  color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 .nav-container {
   max-width: 1100px;
   margin: 0 auto;
+  padding: 0 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
 }
 
-/* Logo + Titel */
+/* Logo */
 .logo-area {
   display: flex;
   align-items: center;
@@ -57,15 +59,15 @@ html, body {
 }
 
 .title {
-  font-size: 1.4rem;
   margin: 0;
+  font-size: 1.4rem;
 }
 
 /* Navigation */
 .nav ul {
   display: flex;
-  list-style: none;
   gap: 30px;
+  list-style: none;
   margin: 0;
   padding: 0;
 }
@@ -81,15 +83,15 @@ html, body {
   color: #aaa;
 }
 
-/* -------------------------------------------------
+/* =================================================
    FOOTER
-------------------------------------------------- */
+================================================= */
 .footer {
+  margin-top: auto;
+  padding: 10px 0;
   background-color: #222;
   color: #fff;
-  padding: 10px 0;
   text-align: center;
-  margin-top: auto; /* Footer unten halten */
 }
 
 .footer .container {
@@ -97,19 +99,27 @@ html, body {
   margin: auto;
 }
 
-/* -------------------------------------------------
-   SUCHLEISTE + ADD BUTTON
-------------------------------------------------- */
-.search-container {
+/* =================================================
+   SUCH- & FILTERBEREICH
+================================================= */
+.search-container,
+.filter-container {
   width: 100%;
   display: flex;
   justify-content: center;
+}
+
+.search-container {
   margin-top: 20px;
 }
 
-.search-input {
+.filter-container {
+  margin-top: 15px;
+}
+
+.search-input,
+.filter-dropdown {
   width: 60%;
-  max-width: 500px;
   padding: 10px 14px;
   font-size: 1rem;
   border-radius: 6px;
@@ -118,61 +128,95 @@ html, body {
   color: #fff;
 }
 
-.add-game-btn {
-  display: block;
-  margin: 15px auto;
-  padding: 10px 20px;
-  background-color: #0d6efd;
-  color: white;
+.search-input {
+  max-width: 500px;
+}
+
+.filter-dropdown {
+  max-width: 100px;
+}
+
+/* =================================================
+   BUTTONS
+================================================= */
+.add-game-btn,
+.edit-btn,
+.details-btn {
+  padding: 8px 14px;
+  width: 100%;
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
+  color: #fff;
   transition: background 0.15s ease;
 }
 
-.add-game-btn:hover {
-  background-color: #0b5ed7;
+.add-game-btn {
+  display: block;
+  margin: 15px auto;
+  max-width: 200px;
+  padding: 10px 20px;
+  background: #0d6efd;
 }
 
-/* -------------------------------------------------
-   GAME CARD GRID LAYOUT
-------------------------------------------------- */
+.add-game-btn:hover,
+.edit-btn:hover {
+  background: #0b5ed7;
+}
+
+.edit-btn {
+  margin-top: auto;
+  background: #0d6efd;
+}
+
+.details-btn {
+  margin-top: 8px;
+  background: #198754;
+}
+
+.details-btn:hover {
+  background: #146c43;
+}
+
+/* =================================================
+   GRID LAYOUT
+================================================= */
 .main-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 25px;
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 40px;
 }
 
-/* -------------------------------------------------
-   GAME CARD (Dark Theme)
-------------------------------------------------- */
+/* =================================================
+   GAME CARD
+================================================= */
 .card {
-  width: 100%; /* volle Breite in Grid-Zelle */
+  width: 100%;
+  padding: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 12px;
-  border-radius: 10px;
   background: #1e1e1e;
   border: 1px solid #333;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 }
 
 .image-wrapper {
   width: 100%;
   height: 140px;
+  background: #2a2a2a;
   overflow: hidden;
   border-radius: 6px;
-  background: #2a2a2a;
 }
 
 .card-img {
@@ -182,56 +226,25 @@ html, body {
 }
 
 .card .title {
+  margin: 12px 0 10px;
   font-size: 1rem;
-  margin: 12px 0 10px 0;
   color: #eee;
   text-align: center;
 }
 
-.edit-btn {
-  margin-top: auto;
-  padding: 8px 14px;
-  width: 100%;
-  background: #0d6efd;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.edit-btn:hover {
-  background: #0b5ed7;
-}
-
-.details-btn {
-  margin-top: 8px;
-  padding: 8px 14px;
-  width: 100%;
-  background: #198754;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.15s ease;
-}
-
-.details-btn:hover {
-  background: #146c43;
-}
-
-/* -------------------------------------------------
-   FORMULARE – AddGame & EditGame
-------------------------------------------------- */
+/* =================================================
+   FORMULARE (Add / Edit)
+================================================= */
 .form-container {
   max-width: 500px;
   margin: 30px auto;
   padding: 20px;
-  background: #1e1e1e;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-  color: #fff;
   display: flex;
   flex-direction: column;
+  background: #1e1e1e;
+  color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .form-container h2 {
@@ -244,17 +257,17 @@ html, body {
   font-weight: 500;
 }
 
-.form-container .form-control {
+.form-control {
   width: 100%;
-  padding: 8px 12px;
   margin-top: 5px;
+  padding: 8px 12px;
   border-radius: 6px;
   border: 1px solid #444;
   background: #2a2a2a;
   color: #fff;
 }
 
-.form-container textarea.form-control {
+textarea.form-control {
   min-height: 80px;
   resize: vertical;
 }
@@ -262,14 +275,12 @@ html, body {
 .form-container button,
 .form-container .save-btn {
   margin-top: 20px;
-  width: 100%;
   padding: 10px 20px;
   background: #0d6efd;
-  color: #fff;
   border: none;
   border-radius: 8px;
+  color: #fff;
   cursor: pointer;
-  transition: background 0.15s ease;
 }
 
 .form-container button:hover,
@@ -277,14 +288,14 @@ html, body {
   background: #0b5ed7;
 }
 
-/* -------------------------------------------------
-   RESPONSIVE Anpassungen
-------------------------------------------------- */
-@media screen and (max-width: 768px) {
+/* =================================================
+   RESPONSIVE
+================================================= */
+@media (max-width: 768px) {
   .main-grid {
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 15px;
     padding: 10px;
+    gap: 15px;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   }
 
   .card {
@@ -295,7 +306,8 @@ html, body {
     font-size: 0.9rem;
   }
 
-  .search-input {
+  .search-input,
+  .filter-dropdown {
     width: 80%;
   }
 }

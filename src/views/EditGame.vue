@@ -79,7 +79,7 @@ const updateGame = async () => {
     if (!res.ok) throw new Error('Update fehlgeschlagen');
 
     alert('Spiel erfolgreich aktualisiert!');
-    router.push({ name: 'Overview' });
+    router.push({ name: 'GameOverview' });
   } catch (err) {
     console.error(err);
     alert('Fehler beim Speichern!');

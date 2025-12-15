@@ -7,7 +7,7 @@
 </template>
 
 <script setup>
-// Keine Logik nötig
+
 </script>
 
 

@@ -21,7 +21,7 @@ const props = defineProps({
 
 const router = useRouter();
 
-// Funktion zum Weiterleiten auf die GameDetail-Seite
+// routing
 const goToGameDetail = () => {
   console.log('Details-Button geklickt, Game ID:', props.game.id);
   router.push({ name: 'GameDetail', params: { id: props.game.id } });

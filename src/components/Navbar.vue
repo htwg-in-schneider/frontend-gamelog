@@ -9,10 +9,9 @@
       <!-- Navigation rechts -->
       <nav class="nav">
         <ul>
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Games</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Contact</a></li>
+          <router-link to="/">Home</router-link>
+          <router-link to="/games">Games</router-link>
+          <router-link to="/about">About</router-link>
         </ul>
       </nav>
     </div>
