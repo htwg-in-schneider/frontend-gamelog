@@ -20,7 +20,7 @@
         />
       </div>
 
-      <router-link to="/" class="details-btn">Zurück zur Übersicht</router-link>
+      <router-link to="/games" class="details-btn">Zurück zur Übersicht</router-link>
     </div>
 
     <div v-else>

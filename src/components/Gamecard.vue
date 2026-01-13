@@ -1,33 +1,56 @@
 <template>
   <div class="card">
     <div class="image-wrapper">
-      <img :src="props.game.bildurl" class="card-img" />
+      <img :src="game.bildurl" class="card-img" />
     </div>
 
-    <h3 class="title">{{ props.game.titel }}</h3>
+    <h3 class="title">{{ game.titel }}</h3>
 
-    <button class="edit-btn" @click="$emit('edit-game', props.game)">Bearbeiten</button>
-    <button class="details-btn" @click="goToGameDetail">Details</button>
+    <!-- 🔒 EDIT: nur ADMIN -->
+    <button
+      v-if="isAdmin"
+      class="edit-btn"
+      @click="$emit('edit-game', game)"
+    >
+      Bearbeiten
+    </button>
+
+    <!-- 👀 DETAILS: für alle -->
+    <button
+      class="details-btn"
+      @click="goToGameDetail"
+    >
+      Details
+    </button>
   </div>
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router'
 
-// Props definieren
-const props = defineProps({
-  game: Object
-});
+// Props
+defineProps({
+  game: {
+    type: Object,
+    required: true
+  },
+  isAdmin: {
+    type: Boolean,
+    required: true
+  }
+})
 
-const router = useRouter();
+const router = useRouter()
 
-// routing
+// Routing
 const goToGameDetail = () => {
-  console.log('Details-Button geklickt, Game ID:', props.game.id);
-  router.push({ name: 'GameDetail', params: { id: props.game.id } });
-};
+  router.push({
+    name: 'GameDetail',
+    params: { id: game.id }
+  })
+}
 </script>
 
 <style scoped>
-
+/* optionales Styling */
 </style>

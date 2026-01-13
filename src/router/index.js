@@ -4,6 +4,7 @@ import AddGame from '@/views/AddGame.vue';
 import GameDetail from '@/views/GameDetail.vue';
 import Home from '@/views/Home.vue';
 import About from '@/views/About.vue';
+import Profile from '@/views/Profile.vue';
 
 const repoName = '/gamelog-frontend/'; 
 const routes = [
@@ -38,7 +39,12 @@ const routes = [
     name: 'EditGame',
     component: () => import('@/views/EditGame.vue'),
     props: true,
-  }
+  },
+   { 
+    path: '/profile',
+    name: 'Profile',
+    component: Profile
+  },
 ];
 
 const router = createRouter({

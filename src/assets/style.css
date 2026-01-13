@@ -282,10 +282,25 @@ textarea.form-control {
   color: #fff;
   cursor: pointer;
 }
-
+.form-container .delete-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: rgb(237, 20, 20);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+}
 .form-container button:hover,
 .form-container .save-btn:hover {
   background: #0b5ed7;
+}
+.form-container .delete-btn:hover {
+  background: rgb(166, 8, 8);
+}
+.form-container .button-row {
+  display: flex;
+  gap: 5px;
 }
 
 /* =================================================

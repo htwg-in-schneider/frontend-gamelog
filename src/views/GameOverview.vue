@@ -3,20 +3,20 @@
 
     <!-- SUCHLEISTE + PLATFORM-FILTER -->
     <div class="search-container">
-      <input 
-        v-model="searchTerm" 
-        placeholder="Spiel suchen..." 
+      <input
+        v-model="searchTerm"
+        placeholder="Spiel suchen..."
         class="search-input"
       />
 
-      <select 
-        v-model="selectedPlatform" 
+      <select
+        v-model="selectedPlatform"
         class="filter-dropdown"
       >
         <option value="">Alle Plattformen</option>
-        <option 
-          v-for="p in availablePlatforms" 
-          :key="p" 
+        <option
+          v-for="p in availablePlatforms"
+          :key="p"
           :value="p"
         >
           {{ p }}
@@ -24,8 +24,12 @@
       </select>
     </div>
 
-    <!-- ADD GAME BUTTON -->
-    <button class="add-game-btn" @click="goToAddGame">
+    <!-- 🔒 ADD GAME BUTTON – nur ADMIN -->
+    <button
+      v-if="isAdmin"
+      class="add-game-btn"
+      @click="goToAddGame"
+    >
       Neues Spiel
     </button>
 
@@ -35,6 +39,7 @@
         v-for="game in filteredGames"
         :key="game.id"
         :game="game"
+        :is-admin="isAdmin"
         @edit-game="goToEditGame"
       />
     </div>
@@ -43,70 +48,97 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
-import { useRouter } from 'vue-router';
-import GameCard from '@/components/Gamecard.vue';
+import { ref, onMounted, computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuth0 } from '@auth0/auth0-vue'
+import GameCard from '@/components/Gamecard.vue'
 
 // Router
-const router = useRouter();
+const router = useRouter()
+const { getAccessTokenSilently } = useAuth0()
+
+// 🔒 ADMIN Status
+const isAdmin = ref(false)
 
 // Zustand
-const games = ref([]);
-const searchTerm = ref('');
-const selectedPlatform = ref('');
-const availablePlatforms = ref([]);
+const games = ref([])
+const searchTerm = ref('')
+const selectedPlatform = ref('')
+const availablePlatforms = ref([])
 
-// 1Spiele laden
+// 🔹 Profil laden & ADMIN prüfen
+const loadProfile = async () => {
+  try {
+    const token = await getAccessTokenSilently()
+
+    const res = await fetch('http://localhost:8081/api/profile', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+
+    if (!res.ok) throw new Error('Profil konnte nicht geladen werden')
+
+    const profile = await res.json()
+    isAdmin.value = profile.role === 'ADMIN'
+  } catch (err) {
+    console.error('Profil-Fehler:', err)
+    isAdmin.value = false
+  }
+}
+
+// 🔹 Spiele laden
 const loadGames = async () => {
   try {
-    const response = await fetch('http://localhost:8081/api/games');
-    const data = await response.json();
+    const response = await fetch('http://localhost:8081/api/games')
+    const data = await response.json()
 
-    // Sicherstellen, dass jedes Game ein Array von Plattform-Namen hat
     games.value = data.map(g => ({
       ...g,
       platformNames: g.platforms ? g.platforms.map(p => p.name) : []
-    }));
+    }))
   } catch (error) {
-    console.error('Fehler beim Laden der Spiele:', error);
+    console.error('Fehler beim Laden der Spiele:', error)
   }
-};
+}
 
-// Plattformen laden
+// 🔹 Plattformen laden
 const loadPlatforms = async () => {
   try {
-    const response = await fetch('http://localhost:8081/api/platforms');
-    const data = await response.json();
-    availablePlatforms.value = data.map(p => p.name);
+    const response = await fetch('http://localhost:8081/api/platforms')
+    const data = await response.json()
+    availablePlatforms.value = data.map(p => p.name)
   } catch (error) {
-    console.error('Fehler beim Laden der Plattformen:', error);
+    console.error('Fehler beim Laden der Plattformen:', error)
   }
-};
+}
 
-// Gefilterte Spiele berechnen
+// 🔹 Gefilterte Spiele
 const filteredGames = computed(() => {
   return games.value.filter(game => {
     const matchesSearch = game.titel
       .toLowerCase()
-      .includes(searchTerm.value.toLowerCase());
+      .includes(searchTerm.value.toLowerCase())
 
     const matchesPlatform =
       selectedPlatform.value === '' ||
-      (game.platformNames &&
-       game.platformNames.some(p => p.toLowerCase() === selectedPlatform.value.toLowerCase()));
+      game.platformNames.some(
+        p => p.toLowerCase() === selectedPlatform.value.toLowerCase()
+      )
 
-    return matchesSearch && matchesPlatform;
-  });
-});
+    return matchesSearch && matchesPlatform
+  })
+})
 
-// Navigation
-const goToAddGame = () => router.push({ name: 'AddGame' });
+// 🔹 Navigation
+const goToAddGame = () => router.push({ name: 'AddGame' })
 const goToEditGame = (game) =>
-  router.push({ name: 'EditGame', params: { id: game.id } });
+  router.push({ name: 'EditGame', params: { id: game.id } })
 
-// Beim Mounten API-Calls ausführen
+// 🔹 On Mount
 onMounted(() => {
-  loadGames();
-  loadPlatforms();
-});
+  loadProfile()
+  loadGames()
+  loadPlatforms()
+})
 </script>
