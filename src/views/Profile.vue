@@ -1,68 +1,46 @@
-<script setup>
-import { useAuth0 } from '@auth0/auth0-vue'
-import { onMounted, ref } from 'vue'
-
-const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0()
-
-const bearerToken = ref('')
-const error = ref('')
-
-function copyToClipboard(event) {
-  event.target.select()
-  navigator.clipboard.writeText(event.target.value)
-}
-
-onMounted(async () => {
-  if (isAuthenticated.value) {
-    try {
-      bearerToken.value = await getAccessTokenSilently()
-    } catch (e) {
-      error.value = `Fehler beim Laden des Tokens: ${e.message}`
-      console.warn(e)
-    }
-  }
-})
-</script>
-
 <template>
-  <div class="profile-wrapper">
+  <div class="profile-card">
+    <h2>Mein Profil</h2>
 
-    <!-- LOADING -->
-    <div v-if="isLoading" class="loading">
-      <div class="spinner-border" role="status"></div>
-    </div>
+    <label>Name</label>
+    <input v-model="profile.name" />
 
-    <!-- PROFIL -->
-    <div v-else-if="isAuthenticated && user" class="profile-card">
+    <label>E-Mail</label>
+    <input v-model="profile.email" />
 
-      <!-- USERNAME GANZ OBEN -->
-      <h1 class="username">{{ user.name }}</h1>
-
-      <img
-        :src="user.picture"
-        :alt="user.name"
-        class="profile-pic"
-      />
-
-      <details class="debug">
-        <summary>OAuth2 / Debug-Informationen</summary>
-
-        <pre>{{ JSON.stringify(user, null, 2) }}</pre>
-
-        <textarea
-          readonly
-          rows="3"
-          @click="copyToClipboard"
-        >{{ bearerToken }}</textarea>
-      </details>
-
-    </div>
-
-    <!-- NICHT EINGELOGGT -->
-    <div v-else class="not-logged-in">
-      Sie sind nicht eingeloggt.
-    </div>
-
+    <button @click="saveProfile">
+      Änderungen speichern
+    </button>
   </div>
 </template>
 
+<script setup>
+import { ref, onMounted } from 'vue'
+import { useAuth0 } from '@auth0/auth0-vue'
+
+const { getAccessTokenSilently } = useAuth0()
+const profile = ref({})
+
+const loadProfile = async () => {
+  const token = await getAccessTokenSilently()
+  const res = await fetch('http://localhost:8081/api/profile', {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+  profile.value = await res.json()
+}
+
+const saveProfile = async () => {
+  const token = await getAccessTokenSilently()
+  await fetch('http://localhost:8081/api/profile', {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify(profile.value)
+  })
+  alert('Profil gespeichert')
+}
+
+onMounted(loadProfile)
+</script>

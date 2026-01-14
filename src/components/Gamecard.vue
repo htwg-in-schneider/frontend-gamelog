@@ -28,8 +28,8 @@
 <script setup>
 import { useRouter } from 'vue-router'
 
-// Props
-defineProps({
+// ✅ Props RICHTIG abfangen
+const props = defineProps({
   game: {
     type: Object,
     required: true
@@ -46,11 +46,11 @@ const router = useRouter()
 const goToGameDetail = () => {
   router.push({
     name: 'GameDetail',
-    params: { id: game.id }
+    params: { id: props.game.id }
   })
 }
 </script>
 
 <style scoped>
-/* optionales Styling */
+/* optional */
 </style>
