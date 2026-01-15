@@ -1,22 +1,28 @@
 <template>
   <div class="contact-wrapper">
-    <div class="contact-card dark-card">
+    <div class="contact-card">
       <h1>Kontakt</h1>
-
+      <p>Ihr habt Fragen oder Feedback? Kontaktiert uns gerne!</p>
       <form
-        action="mailto:matosnico02@gmail.com"
+        action="mailto:manager.gamelog@gmail.com"
         method="POST"
         enctype="text/plain"
       >
         <input type="text" name="Name" placeholder="Name" required />
         <input type="email" name="Email" placeholder="E-Mail" required />
-        <textarea name="Nachricht" placeholder="Nachricht" rows="5" required></textarea>
+        <textarea
+          name="Nachricht"
+          placeholder="Nachricht"
+          rows="5"
+          required
+        ></textarea>
 
         <button type="submit">Absenden</button>
       </form>
     </div>
   </div>
 </template>
+
 <style scoped>
 /* Wrapper zentriert die Card */
 .contact-wrapper {
@@ -33,6 +39,11 @@
   width: 100%;
   max-width: 420px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+
+  /* Inhalt zentrieren */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* Titel */
@@ -42,17 +53,26 @@
   font-size: 1.6rem;
 }
 
+/* Formular */
+.contact-card form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
 /* Inputs & Textarea */
 .contact-card input,
 .contact-card textarea {
   width: 100%;
   padding: 10px 12px;
-  margin-bottom: 14px;
   border-radius: 6px;
   border: 1px solid #444;
   background: #2a2a2a;
   color: #fff;
   font-size: 0.95rem;
+  box-sizing: border-box;
 }
 
 .contact-card input::placeholder,

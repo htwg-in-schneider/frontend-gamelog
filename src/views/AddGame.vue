@@ -1,53 +1,55 @@
 <template>
-  <div class="form-container">
-    <h2>Neues Spiel erstellen</h2>
+  <div class="page-content">
+    <div class="form-container">
+      <h2>Neues Spiel erstellen</h2>
 
-    <!-- 🔒 Hinweis für Nicht-Admins -->
-    <p v-if="!isAdmin" class="error-text">
-      Sie haben keine Berechtigung, ein neues Spiel zu erstellen.
-    </p>
-
-    <form v-if="isAdmin" @submit.prevent="createGame">
-      <label>Titel</label>
-      <input v-model="game.titel" class="form-control" required />
-
-      <label>Plattformen</label>
-      <div
-        v-for="p in allowedPlatforms"
-        :key="p"
-        class="platform-checkbox"
-      >
-        <input
-          type="checkbox"
-          :value="p"
-          v-model="selectedPlatforms"
-          :id="`platform-${p}`"
-        />
-        <label :for="`platform-${p}`">{{ p }}</label>
-      </div>
-
-      <p v-if="platformError" class="error-text">
-        {{ platformError }}
+      <!-- Hinweis für Nicht-Admins -->
+      <p v-if="!isAdmin" class="error-text">
+        Sie haben keine Berechtigung, ein neues Spiel zu erstellen.
       </p>
 
-      <label>Beschreibung</label>
-      <textarea
-        v-model="game.beschreibung"
-        class="form-control"
-        required
-      ></textarea>
+      <form v-if="isAdmin" @submit.prevent="createGame">
+        <label>Titel</label>
+        <input v-model="game.titel" class="form-control" required />
 
-      <label>Bild URL</label>
-      <input
-        v-model="game.bildurl"
-        class="form-control"
-        required
-      />
+        <label>Plattformen</label>
+        <div
+          v-for="p in allowedPlatforms"
+          :key="p"
+          class="platform-checkbox"
+        >
+          <input
+            type="checkbox"
+            :value="p"
+            v-model="selectedPlatforms"
+            :id="`platform-${p}`"
+          />
+          <label :for="`platform-${p}`">{{ p }}</label>
+        </div>
 
-      <button type="submit" class="save-btn">
-        Erstellen
-      </button>
-    </form>
+        <p v-if="platformError" class="error-text">
+          {{ platformError }}
+        </p>
+
+        <label>Beschreibung</label>
+        <textarea
+          v-model="game.beschreibung"
+          class="form-control"
+          required
+        ></textarea>
+
+        <label>Bild URL</label>
+        <input
+          v-model="game.bildurl"
+          class="form-control"
+          required
+        />
+
+        <button type="submit" class="save-btn">
+          Erstellen
+        </button>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -55,11 +57,12 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuth0 } from '@auth0/auth0-vue'
+import { API_BASE_URL } from '@/api/api'
 
 const router = useRouter()
 const { getAccessTokenSilently } = useAuth0()
 
-// 🔹 ADMIN Status
+// ADMIN Status
 const isAdmin = ref(false)
 
 // erlaubte Plattformen
@@ -75,12 +78,12 @@ const game = ref({
 const selectedPlatforms = ref([])
 const platformError = ref('')
 
-// 🔹 Profil laden & ADMIN prüfen
+// Profil laden & ADMIN prüfen
 const loadProfile = async () => {
   try {
     const token = await getAccessTokenSilently()
 
-    const res = await fetch('http://localhost:8081/api/profile', {
+    const res = await fetch(`${API_BASE_URL}/api/profile`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -96,7 +99,7 @@ const loadProfile = async () => {
   }
 }
 
-// 🔹 Spiel erstellen (ADMIN)
+// Spiel erstellen (ADMIN)
 const createGame = async () => {
   if (!isAdmin.value) return
 
@@ -116,7 +119,7 @@ const createGame = async () => {
   try {
     const token = await getAccessTokenSilently()
 
-    const res = await fetch('http://localhost:8081/api/games', {
+    const res = await fetch(`${API_BASE_URL}/api/games`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -139,21 +142,4 @@ onMounted(loadProfile)
 </script>
 
 <style scoped>
-.platform-checkbox {
-  margin-bottom: 5px;
-}
-
-.error-text {
-  color: red;
-  margin-top: 10px;
-}
-
-.save-btn {
-  margin-top: 15px;
-  background-color: #4caf50;
-  color: white;
-  padding: 8px 14px;
-  border: none;
-  cursor: pointer;
-}
 </style>

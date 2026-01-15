@@ -1,45 +1,40 @@
 <template>
-  <div class="detail-wrapper">
-    <div class="detail-card" v-if="game">
+  <div class="members-wrapper">
+    <div class="members-card" v-if="game">
 
-      <!-- 🔝 HEADER -->
-<h2 class="title">{{ game.titel }}</h2>
+      <h2 class="title">{{ game.titel }}</h2>
 
-<div class="rating">
-  <p v-if="averageStars">
-    ⭐ {{ averageStars }} / 5
-    <span class="rating-count">
-      ({{ game.reviews.length }} Bewertungen)
-    </span>
-  </p>
-  <p v-else class="rating-none">
-    Noch keine Bewertungen
-  </p>
-</div>
+      <!-- Bewertung -->
+      <div class="rating">
+        <p v-if="averageStars">
+          ⭐ {{ averageStars }} / 5
+          <span class="rating-count">
+            ({{ game.reviews.length }} Bewertungen)
+          </span>
+        </p>
+        <p v-else class="rating-none">
+          Noch keine Bewertungen
+        </p>
+      </div>
 
-<!-- 🎮 GAME INFO LAYOUT -->
-<div class="game-info">
-  <!-- Cover links -->
-  <div class="cover-wrapper">
-    <img :src="game.bildurl" class="cover-img" />
-  </div>
+      <!-- Game Info -->
+      <div class="game-info">
+        <img :src="game.bildurl" class="cover-img" />
 
-  <!-- Beschreibung rechts -->
-  <div class="info-text">
-    <p>
-      <strong>Plattform:</strong><br />
-      {{ game.platforms.map(p => p.name).join(', ') }}
-    </p>
+        <div class="info-text">
+          <p>
+            <strong>Plattform:</strong><br />
+            {{ game.platforms.map(p => p.name).join(', ') }}
+          </p>
 
-    <p class="description">
-      <strong>Beschreibung:</strong><br />
-      {{ game.beschreibung }}
-    </p>
-  </div>
-</div>
+          <p class="description">
+            <strong>Beschreibung:</strong><br />
+            {{ game.beschreibung }}
+          </p>
+        </div>
+      </div>
 
-
-      <!-- ⭐ REVIEW FORM -->
+      <!-- Review Form -->
       <div v-if="isAuthenticated" class="review-form">
         <h3>Bewertung schreiben</h3>
 
@@ -49,17 +44,14 @@
         </select>
 
         <label>Text</label>
-        <textarea
-          v-model="newReview.text"
-          placeholder="Deine Bewertung..."
-        />
+        <textarea v-model="newReview.text" />
 
         <button class="save-btn" @click="submitReview">
           Bewertung absenden
         </button>
       </div>
 
-      <p v-else class="info-text">
+      <p v-else class="login-hint">
         Bitte einloggen, um eine Bewertung zu schreiben.
       </p>
 
@@ -79,13 +71,11 @@
       <router-link to="/games" class="back-link">
         ← Zurück zur Übersicht
       </router-link>
+
     </div>
 
-    <div v-else class="detail-card">
+    <div class="members-card" v-else>
       <p>Spiel wurde nicht gefunden.</p>
-      <router-link to="/games" class="back-link">
-        Zurück
-      </router-link>
     </div>
   </div>
 </template>
@@ -95,6 +85,7 @@ import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAuth0 } from '@auth0/auth0-vue'
 import ReviewCard from '@/components/ReviewCard.vue'
+import { API_BASE_URL } from '@/api/api'
 
 const route = useRoute()
 const id = route.params.id
@@ -110,14 +101,14 @@ const newReview = ref({
   text: ''
 })
 
-/* 🔹 Profil laden */
+/* Profil laden */
 const loadProfile = async () => {
   if (!isAuthenticated.value) return
 
   try {
     const token = await getAccessTokenSilently()
 
-    const res = await fetch('http://localhost:8081/api/profile', {
+    const res = await fetch(`${API_BASE_URL}/api/profile`, {
       headers: { Authorization: `Bearer ${token}` }
     })
 
@@ -131,10 +122,10 @@ const loadProfile = async () => {
   }
 }
 
-/* 🔹 Spiel laden */
+/* Spiel laden */
 const fetchGame = async () => {
   try {
-    const res = await fetch(`http://localhost:8081/api/games/${id}`)
+    const res = await fetch(`${API_BASE_URL}/api/games/${id}`)
     if (!res.ok) throw new Error()
     game.value = await res.json()
   } catch (err) {
@@ -142,7 +133,7 @@ const fetchGame = async () => {
   }
 }
 
-/* 🔹 Review absenden */
+/* Review absenden */
 const submitReview = async () => {
   if (!newReview.value.text.trim()) {
     alert('Bitte einen Text eingeben')
@@ -153,7 +144,7 @@ const submitReview = async () => {
     const token = await getAccessTokenSilently()
 
     const res = await fetch(
-      `http://localhost:8081/api/reviews/game/${id}`,
+      `${API_BASE_URL}/api/reviews/game/${id}`,
       {
         method: 'POST',
         headers: {
@@ -184,7 +175,7 @@ const submitReview = async () => {
   }
 }
 
-/* 🔹 Neueste Reviews */
+/* Neueste Reviews */
 const latestReviews = computed(() => {
   if (!game.value?.reviews) return []
   return [...game.value.reviews]
@@ -192,7 +183,7 @@ const latestReviews = computed(() => {
     .slice(0, 5)
 })
 
-/* 🔹 Durchschnittsbewertung */
+/* Durchschnittsbewertung */
 const averageStars = computed(() => {
   if (!game.value?.reviews?.length) return null
   const sum = game.value.reviews.reduce((a, r) => a + r.stars, 0)
@@ -206,71 +197,53 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* 🌑 Page Wrapper */
-.detail-wrapper {
+.members-wrapper {
   min-height: 100vh;
   background-color: #121212;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  padding: 40px 16px;
+  padding: 40px 0;
 }
 
-
-/* 📄 ZENTRALE KARTE */
-.detail-card {
+.members-card {
   width: 80%;
-  max-width: 1200px;
+  max-width: 900px;
   background-color: #1e1e1e;
+  padding: 32px;
+  border-radius: 12px;
   color: #e0e0e0;
-  padding: 40px;
-  border-radius: 14px;
-  box-shadow: 0 0 24px rgba(0, 0, 0, 0.4);
 }
 
-/* 🔝 Titel + Bewertung */
 .title {
   text-align: center;
-  margin-bottom: 6px;
+  margin-bottom: 10px;
 }
 
 .rating {
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 30px;
 }
 
 .rating-count {
   opacity: 0.7;
-  font-size: 0.9rem;
 }
 
 .rating-none {
   opacity: 0.6;
 }
 
-/* 🎮 GAME INFO (Cover + Beschreibung) */
 .game-info {
   display: flex;
-  gap: 32px;
-  align-items: flex-start;
-  margin-bottom: 40px;
-}
-
-/* Cover links */
-.cover-wrapper {
-  flex: 0 0 20%;
-  display: flex;
-  justify-content: center;
+  gap: 24px;
+  margin-bottom: 32px;
 }
 
 .cover-img {
-  width: 100%;
-  max-width: 200px;
-  border-radius: 12px;
+  width: 180px;
+  border-radius: 10px;
   object-fit: cover;
 }
 
-/* Beschreibung rechts */
 .info-text {
   flex: 1;
 }
@@ -280,45 +253,57 @@ onMounted(() => {
   line-height: 1.6;
 }
 
-/* ⭐ Review Form */
 .review-form {
-  margin: 32px 0;
+  background: #262626;
+  padding: 20px;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
+  margin-bottom: 30px;
 }
 
+.review-form select,
 .review-form textarea {
-  min-height: 90px;
+  background: #1e1e1e;
+  border: 1px solid #3a3a3a;
+  color: #fff;
+  border-radius: 6px;
+  padding: 8px;
 }
 
 .save-btn {
-  width: fit-content;
-  background-color: #4caf50;
-  color: white;
-  padding: 6px 14px;
+  align-self: flex-start;
+  background: #198754;
   border: none;
-  cursor: pointer;
+  color: white;
+  padding: 8px 16px;
   border-radius: 6px;
+  cursor: pointer;
 }
 
-/* 📝 Reviews */
+.save-btn:hover {
+  background: #146c43;
+}
+
+.login-hint {
+  opacity: 0.7;
+  margin-bottom: 20px;
+}
+
 .reviews-title {
-  margin-top: 40px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .reviews-grid {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   overflow-x: auto;
-  padding-bottom: 8px;
 }
 
-/* 🔙 Back-Link */
 .back-link {
   display: inline-block;
-  margin-top: 32px;
+  margin-top: 30px;
   color: #4cafef;
   text-decoration: none;
 }
@@ -327,25 +312,19 @@ onMounted(() => {
   text-decoration: underline;
 }
 
-/* 📱 Mobile */
 @media (max-width: 768px) {
-  .detail-card {
+  .members-card {
     width: 92%;
-    padding: 24px;
   }
 
   .game-info {
     flex-direction: column;
     align-items: center;
+    text-align: center;
   }
 
   .cover-img {
-    max-width: 240px;
-  }
-
-  .info-text {
-    text-align: center;
+    width: 220px;
   }
 }
-
 </style>

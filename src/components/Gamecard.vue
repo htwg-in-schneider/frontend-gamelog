@@ -6,7 +6,7 @@
 
     <h3 class="title">{{ game.titel }}</h3>
 
-    <!-- 🔒 EDIT: nur ADMIN -->
+    <!-- EDIT: nur ADMIN -->
     <button
       v-if="isAdmin"
       class="edit-btn"
@@ -15,7 +15,7 @@
       Bearbeiten
     </button>
 
-    <!-- 👀 DETAILS: für alle -->
+    <!-- DETAILS: für alle -->
     <button
       class="details-btn"
       @click="goToGameDetail"
@@ -28,7 +28,7 @@
 <script setup>
 import { useRouter } from 'vue-router'
 
-// ✅ Props RICHTIG abfangen
+// Props RICHTIG abfangen
 const props = defineProps({
   game: {
     type: Object,
@@ -52,5 +52,5 @@ const goToGameDetail = () => {
 </script>
 
 <style scoped>
-/* optional */
+
 </style>

@@ -1,138 +1,112 @@
-<script setup>
-</script>
-
 <template>
-  <div class="impressum-wrapper">
-    <div class="impressum-card">
-      <h1>Impressum</h1>
+  <div class="members-wrapper">
+    <div class="members-card">
 
-      <section>
-        <h2>Angaben gemäß § 5 TMG</h2>
+      <h2 class="title">Impressum</h2>
+
+      <section class="info-box">
+        <h3>Projektinformation</h3>
         <p>
-          <strong>Gamelog</strong><br />
-          (Studien- & Demoprojekt)<br />
-          Musterstraße 12<br />
-          78462 Konstanz<br />
-          Deutschland
+          Diese Webseite ist ein studentisches Studienprojekt und wurde im
+          Rahmen eines Hochschulkurses erstellt. Sie dient ausschließlich
+          Lern-, Übungs- und Demonstrationszwecken.
         </p>
       </section>
 
       <section>
-        <h2>Vertreten durch</h2>
-        <p>Nico Matos</p>
-      </section>
-
-      <section>
-        <h2>Kontakt</h2>
+        <h3>Nicht-kommerzieller Charakter</h3>
         <p>
-          E-Mail:
-          <a href="mailto:nico.matos@example.com">
-            nico.matos@example.com
-          </a>
+          Das Projekt verfolgt keine kommerziellen Ziele. Es werden keine
+          Produkte oder Dienstleistungen angeboten.
         </p>
       </section>
 
       <section>
-        <h2>Haftungsausschluss</h2>
+        <h3>Haftung für Inhalte</h3>
         <p>
-          Dies ist ein nicht-kommerzielles Demo- und Studienprojekt.
-          Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine
-          Haftung für die Inhalte externer Links. Für den Inhalt der
-          verlinkten Seiten sind ausschließlich deren Betreiber
-          verantwortlich.
+          Die Inhalte wurden mit größtmöglicher Sorgfalt erstellt. Eine
+          Gewähr für Richtigkeit, Vollständigkeit oder Aktualität wird
+          nicht übernommen.
         </p>
       </section>
 
       <section>
-        <h2>Urheberrecht</h2>
+        <h3>Externe Links</h3>
         <p>
-          Die durch die Seitenbetreiber erstellten Inhalte und Werke auf
-          diesen Seiten unterliegen dem deutschen Urheberrecht.
-          Beiträge Dritter sind als solche gekennzeichnet.
+          Für Inhalte externer Webseiten, auf die verwiesen wird, ist stets
+          der jeweilige Anbieter oder Betreiber verantwortlich.
+        </p>
+      </section>
+
+      <section>
+        <h3>Urheberrecht</h3>
+        <p>
+          Alle verwendeten Marken- oder Produktnamen dienen ausschließlich
+          der inhaltlichen Darstellung und verbleiben bei den jeweiligen
+          Rechteinhabern.
         </p>
       </section>
 
       <section class="disclaimer">
         <p>
           <em>
-            Hinweis: Diese Webseite ist ein studentisches Projekt und dient
-            ausschließlich Demonstrationszwecken.
+            Dieses Projekt stellt keine offizielle Webseite dar und besitzt
+            keine rechtliche Verbindlichkeit.
           </em>
         </p>
       </section>
+
     </div>
   </div>
 </template>
 
 <style scoped>
-/* 🌑 Seitenhintergrund & Zentrierung */
-.impressum-wrapper {
+.members-wrapper {
   min-height: 100vh;
+  background-color: #121212;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  background-color: #121212;
   padding: 40px 0;
-  overflow-y: auto;
 }
 
-/* 📄 Content-Card */
-.impressum-card {
+.members-card {
   width: 80%;
   max-width: 900px;
   background-color: #1e1e1e;
-  color: #e0e0e0;
-  padding: 40px 48px;
+  padding: 32px;
   border-radius: 12px;
-  box-shadow: 0 0 24px rgba(0, 0, 0, 0.4);
+  color: #e0e0e0;
 }
 
-/* 🧾 Typografie */
-h1 {
+.title {
   text-align: center;
-  margin-bottom: 32px;
-  font-size: 2.2rem;
+  margin-bottom: 24px;
 }
 
-h2 {
-  margin-top: 28px;
-  margin-bottom: 8px;
-  font-size: 1.2rem;
-  color: #ffffff;
+section {
+  margin-bottom: 20px;
+}
+
+h3 {
+  margin-bottom: 6px;
 }
 
 p {
   line-height: 1.7;
-  margin-bottom: 8px;
+  color: #ccc;
 }
 
-/* 🔗 Links */
-a {
-  color: #4cafef;
-  text-decoration: none;
+.info-box {
+  background: #262626;
+  padding: 16px;
+  border-radius: 8px;
+  border-left: 4px solid #0d6efd;
 }
 
-a:hover {
-  text-decoration: underline;
-}
-
-/* ⚠️ Hinweis */
 .disclaimer {
-  margin-top: 32px;
-  font-size: 0.95rem;
-  opacity: 0.7;
+  margin-top: 30px;
   text-align: center;
-}
-
-/* 📱 Responsive */
-@media (max-width: 768px) {
-  .impressum-card {
-    width: 90%;
-    padding: 28px 24px;
-  }
-
-  h1 {
-    font-size: 1.8rem;
-  }
+  opacity: 0.7;
+  font-size: 0.95rem;
 }
 </style>

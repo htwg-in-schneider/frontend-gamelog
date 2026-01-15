@@ -10,7 +10,7 @@
           width="16"
           height="16"
         >
-          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/> <!--Sterne --> 
         </svg>
         <svg
           v-else
@@ -40,6 +40,7 @@
 </template>
 
 <script setup>
+import { API_BASE_URL } from '@/api/api'
 import { computed } from 'vue'
 import { useAuth0 } from '@auth0/auth0-vue'
 
@@ -67,7 +68,8 @@ const deleteReview = async () => {
     const token = await getAccessTokenSilently()
 
     const res = await fetch(
-      `http://localhost:8081/api/reviews/${props.review.id}`,
+  `${API_BASE_URL}/api/reviews/${props.review.id}`,
+
       {
         method: 'DELETE',
         headers: {
@@ -112,7 +114,18 @@ const deleteReview = async () => {
 .review-text {
   font-size: 0.85rem;
   color: #ddd;
+
+  line-height: 1.4;
+  line-clamp: 4;
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* ← Anzahl Zeilen */
+  -webkit-box-orient: vertical;
+
+  /* Begrenzung */
+  overflow: hidden;
 }
+
+
 
 .delete-link {
   margin-top: 6px;

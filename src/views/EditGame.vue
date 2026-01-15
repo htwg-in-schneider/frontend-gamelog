@@ -1,65 +1,67 @@
 <template>
-  <div class="form-container">
-    <h2>Spiel bearbeiten</h2>
+  <div class="page-content">
+    <div class="form-container">
+      <h2>Spiel bearbeiten</h2>
 
-    <!-- 🔒 Hinweis für Nicht-Admins -->
-    <p v-if="!isAdmin" class="error-text">
-      Sie haben keine Berechtigung, dieses Spiel zu bearbeiten.
-    </p>
-
-    <form @submit.prevent="updateGame">
-      <label>Titel</label>
-      <input
-        v-model="game.titel"
-        class="form-control"
-        :disabled="!isAdmin"
-        required
-      />
-
-      <label>Plattformen</label>
-      <div
-        v-for="p in allowedPlatforms"
-        :key="p"
-        class="platform-checkbox"
-      >
-        <input
-          type="checkbox"
-          :value="p"
-          v-model="selectedPlatforms"
-          :id="`platform-${p}`"
-          :disabled="!isAdmin"
-        />
-        <label :for="`platform-${p}`">{{ p }}</label>
-      </div>
-
-      <p v-if="platformError" class="error-text">
-        {{ platformError }}
+      <!-- Hinweis für Nicht-Admins -->
+      <p v-if="!isAdmin" class="error-text">
+        Sie haben keine Berechtigung, dieses Spiel zu bearbeiten.
       </p>
 
-      <label>Beschreibung</label>
-      <textarea
-        v-model="game.beschreibung"
-        class="form-control"
-        :disabled="!isAdmin"
-        required
-      ></textarea>
+      <form @submit.prevent="updateGame">
+        <label>Titel</label>
+        <input
+          v-model="game.titel"
+          class="form-control"
+          :disabled="!isAdmin"
+          required
+        />
 
-      <label>Bild URL</label>
-      <input
-        v-model="game.bildurl"
-        class="form-control"
-        :disabled="!isAdmin"
-        required
-      />
+        <label>Plattformen</label>
+        <div
+          v-for="p in allowedPlatforms"
+          :key="p"
+          class="platform-checkbox"
+        >
+          <input
+            type="checkbox"
+            :value="p"
+            v-model="selectedPlatforms"
+            :id="`platform-${p}`"
+            :disabled="!isAdmin"
+          />
+          <label :for="`platform-${p}`">{{ p }}</label>
+        </div>
 
-      <!-- 🔒 Buttons nur für ADMIN -->
-      <div v-if="isAdmin" class="button-row">
-        <button type="submit" class="save-btn">Speichern</button>
-        <button type="button" class="delete-btn" @click="deleteGame">
-          Löschen
-        </button>
-      </div>
-    </form>
+        <p v-if="platformError" class="error-text">
+          {{ platformError }}
+        </p>
+
+        <label>Beschreibung</label>
+        <textarea
+          v-model="game.beschreibung"
+          class="form-control"
+          :disabled="!isAdmin"
+          required
+        ></textarea>
+
+        <label>Bild URL</label>
+        <input
+          v-model="game.bildurl"
+          class="form-control"
+          :disabled="!isAdmin"
+          required
+        />
+
+        <!-- Buttons nur für ADMIN -->
+        <div v-if="isAdmin" class="button-row">
+          <button type="submit" class="save-btn">Speichern</button>
+          <button type="button" class="delete-btn" @click="deleteGame">
+            Löschen
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -67,6 +69,7 @@
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuth0 } from '@auth0/auth0-vue'
+import { API_BASE_URL } from '@/api/api'
 
 const route = useRoute()
 const router = useRouter()
@@ -74,7 +77,7 @@ const { getAccessTokenSilently } = useAuth0()
 
 const id = route.params.id
 
-// 🔹 ADMIN Status
+// ADMIN Status
 const isAdmin = ref(false)
 
 // erlaubte Plattformen
@@ -90,12 +93,12 @@ const game = ref({
 const selectedPlatforms = ref([])
 const platformError = ref('')
 
-// 🔹 Profil laden & ADMIN prüfen
+// Profil laden & ADMIN prüfen
 const loadProfile = async () => {
   try {
     const token = await getAccessTokenSilently()
 
-    const res = await fetch('http://localhost:8081/api/profile', {
+    const res = await fetch(`${API_BASE_URL}/api/profile`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -111,10 +114,10 @@ const loadProfile = async () => {
   }
 }
 
-// 🔹 Spiel laden (öffentlich)
+// Spiel laden (öffentlich)
 const loadGame = async () => {
   try {
-    const res = await fetch(`http://localhost:8081/api/games/${id}`)
+    const res = await fetch(`${API_BASE_URL}/api/games/${id}`)
     if (!res.ok) throw new Error('Laden fehlgeschlagen')
 
     const data = await res.json()
@@ -128,7 +131,7 @@ const loadGame = async () => {
   }
 }
 
-// 🔹 Spiel aktualisieren (ADMIN)
+// Spiel aktualisieren (ADMIN)
 const updateGame = async () => {
   if (!isAdmin.value) return
 
@@ -148,7 +151,7 @@ const updateGame = async () => {
   try {
     const token = await getAccessTokenSilently()
 
-    const res = await fetch(`http://localhost:8081/api/games/${id}`, {
+    const res = await fetch(`${API_BASE_URL}/api/games/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -167,7 +170,7 @@ const updateGame = async () => {
   }
 }
 
-// 🔹 Spiel löschen (ADMIN)
+// Spiel löschen (ADMIN)
 const deleteGame = async () => {
   if (!isAdmin.value) return
   if (!confirm('Möchten Sie dieses Spiel wirklich löschen?')) return
@@ -175,7 +178,7 @@ const deleteGame = async () => {
   try {
     const token = await getAccessTokenSilently()
 
-    const res = await fetch(`http://localhost:8081/api/games/${id}`, {
+    const res = await fetch(`${API_BASE_URL}/api/games/${id}`, {
       method: 'DELETE',
       headers: {
         Authorization: `Bearer ${token}`
@@ -199,34 +202,4 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.platform-checkbox {
-  margin-bottom: 5px;
-}
-
-.error-text {
-  color: red;
-  margin-top: 10px;
-}
-
-.button-row {
-  margin-top: 15px;
-  display: flex;
-  gap: 10px;
-}
-
-.save-btn {
-  background-color: #4caf50;
-  color: white;
-  padding: 8px 14px;
-  border: none;
-  cursor: pointer;
-}
-
-.delete-btn {
-  background-color: #e53935;
-  color: white;
-  padding: 8px 14px;
-  border: none;
-  cursor: pointer;
-}
 </style>

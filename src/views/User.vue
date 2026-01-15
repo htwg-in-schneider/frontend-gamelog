@@ -39,6 +39,7 @@ import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import ReviewCard from '@/components/ReviewCardCover.vue'
 import ReviewCardCover from '@/components/ReviewCardCover.vue'
+import { API_BASE_URL } from '@/api/api'
 
 const route = useRoute()
 const userId = route.params.id
@@ -50,7 +51,7 @@ const reviews = ref([])
 const loadUser = async () => {
   try {
     const res = await fetch(
-      `http://localhost:8081/api/public/users/${userId}`
+      `${API_BASE_URL}/api/public/users/${userId}`
     )
 
     if (!res.ok) throw new Error()

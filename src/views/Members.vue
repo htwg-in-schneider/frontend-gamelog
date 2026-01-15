@@ -18,11 +18,10 @@
           class="member-row"
         >
           <img
-  :src="user.picture || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.name)"
-  alt="Avatar"
-  class="avatar"
-/>
-
+            :src="user.picture || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.name)"
+            alt="Avatar"
+            class="avatar"
+          />
 
           <span class="name">{{ user.name }}</span>
 
@@ -38,12 +37,13 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import { API_BASE_URL } from '@/api/api'
 
 const users = ref([])
 const search = ref('')
 
 const loadUsers = async () => {
-  const res = await fetch('http://localhost:8081/api/public/users')
+  const res = await fetch(`${API_BASE_URL}/api/public/users`)
   users.value = await res.json()
 }
 
@@ -81,12 +81,14 @@ onMounted(loadUsers)
 
 .search-input {
   width: 100%;
+  max-width: 100%;
   padding: 8px;
   margin-bottom: 20px;
   background: #2a2a2a;
   border: none;
   color: white;
   border-radius: 6px;
+  box-sizing: border-box;
 }
 
 .members-list {

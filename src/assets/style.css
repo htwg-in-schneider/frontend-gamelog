@@ -23,8 +23,11 @@ body {
 
 .page-content {
   flex: 1 0 auto;
-  padding: 20px;
   background: #121212;
+  padding-left: clamp(16px, 4vw, 32px);
+  padding-right: clamp(16px, 4vw, 32px);
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 /* =================================================
@@ -102,24 +105,18 @@ body {
 /* =================================================
    SUCH- & FILTERBEREICH
 ================================================= */
-.search-container,
-.filter-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
 .search-container {
-  margin-top: 20px;
+  max-width: 900px;
+  margin: 20px auto 20px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+
 }
 
-.filter-container {
-  margin-top: 15px;
-}
-
-.search-input,
-.filter-dropdown {
-  width: 60%;
+.search-input {
+  width: 80%;
+  flex: 1;
   padding: 10px 14px;
   font-size: 1rem;
   border-radius: 6px;
@@ -128,12 +125,14 @@ body {
   color: #fff;
 }
 
-.search-input {
-  max-width: 500px;
-}
-
 .filter-dropdown {
-  max-width: 100px;
+  width: 20%;
+  padding: 10px 14px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background: #1e1e1e;
+  color: #fff;
 }
 
 /* =================================================
@@ -182,11 +181,11 @@ body {
    GRID LAYOUT
 ================================================= */
 .main-grid {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+  max-width: 900px;
+  margin: 20px auto 0;
+  padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 40px;
 }
 
@@ -232,19 +231,22 @@ body {
   text-align: center;
 }
 
-/* =================================================
-   FORMULARE (Add / Edit)
-================================================= */
+/* ================================================= FORMULARE (Add / Edit) ================================================= */
 .form-container {
-  max-width: 500px;
+  max-width: 500;
+  width: 60%;
   margin: 30px auto;
   padding: 20px;
   display: flex;
   flex-direction: column;
+  
+  
   background: #1e1e1e;
+
   color: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  
 }
 
 .form-container h2 {
@@ -257,6 +259,7 @@ body {
   font-weight: 500;
 }
 
+/* Inputs */
 .form-control {
   width: 100%;
   margin-top: 5px;
@@ -265,6 +268,7 @@ body {
   border: 1px solid #444;
   background: #2a2a2a;
   color: #fff;
+  box-sizing: border-box;
 }
 
 textarea.form-control {
@@ -272,6 +276,7 @@ textarea.form-control {
   resize: vertical;
 }
 
+/* Buttons */
 .form-container button,
 .form-container .save-btn {
   margin-top: 20px;
@@ -282,6 +287,7 @@ textarea.form-control {
   color: #fff;
   cursor: pointer;
 }
+
 .form-container .delete-btn {
   margin-top: 20px;
   padding: 10px 20px;
@@ -291,38 +297,38 @@ textarea.form-control {
   color: #fff;
   cursor: pointer;
 }
+
 .form-container button:hover,
 .form-container .save-btn:hover {
   background: #0b5ed7;
 }
+
 .form-container .delete-btn:hover {
   background: rgb(166, 8, 8);
 }
+
 .form-container .button-row {
   display: flex;
   gap: 5px;
 }
+
+/*
+
 
 /* =================================================
    RESPONSIVE
 ================================================= */
 @media (max-width: 768px) {
   .main-grid {
-    padding: 10px;
     gap: 15px;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   }
 
-  .card {
-    padding: 10px;
+  .search-container {
+    flex-direction: column;
   }
 
-  .card .title {
-    font-size: 0.9rem;
-  }
-
-  .search-input,
   .filter-dropdown {
-    width: 80%;
+    width: 100%;
   }
-}
+} 

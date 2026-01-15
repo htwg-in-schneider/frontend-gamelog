@@ -1,49 +1,53 @@
 <template>
   <div class="page-content">
 
-    <!-- SUCHLEISTE + PLATFORM-FILTER -->
-    <div class="search-container">
-      <input
-        v-model="searchTerm"
-        placeholder="Spiel suchen..."
-        class="search-input"
-      />
+    <!-- ZENTRIERTER CONTENT -->
+    <div class="overview-container">
 
-      <select
-        v-model="selectedPlatform"
-        class="filter-dropdown"
-      >
-        <option value="">Alle Plattformen</option>
-        <option
-          v-for="p in availablePlatforms"
-          :key="p"
-          :value="p"
+      <!-- SUCHLEISTE + FILTER -->
+      <div class="search-container overview-search">
+        <input
+          v-model="searchTerm"
+          placeholder="Spiel suchen..."
+          class="search-input"
+        />
+
+        <select
+          v-model="selectedPlatform"
+          class="filter-dropdown"
         >
-          {{ p }}
-        </option>
-      </select>
+          <option value="">Alle Plattformen</option>
+          <option
+            v-for="p in availablePlatforms"
+            :key="p"
+            :value="p"
+          >
+            {{ p }}
+          </option>
+        </select>
+      </div>
+
+      <!-- ADD GAME BUTTON -->
+      <button
+        v-if="isAdmin"
+        class="add-game-btn"
+        @click="goToAddGame"
+      >
+        Neues Spiel
+      </button>
+
+      <!-- SPIELE GRID -->
+      <div class="main-grid overview-grid">
+        <GameCard
+          v-for="game in filteredGames"
+          :key="game.id"
+          :game="game"
+          :is-admin="isAdmin"
+          @edit-game="goToEditGame"
+        />
+      </div>
+
     </div>
-
-    <!-- 🔒 ADD GAME BUTTON – nur ADMIN -->
-    <button
-      v-if="isAdmin"
-      class="add-game-btn"
-      @click="goToAddGame"
-    >
-      Neues Spiel
-    </button>
-
-    <!-- SPIELE GRID -->
-    <div class="main-grid">
-      <GameCard
-        v-for="game in filteredGames"
-        :key="game.id"
-        :game="game"
-        :is-admin="isAdmin"
-        @edit-game="goToEditGame"
-      />
-    </div>
-
   </div>
 </template>
 
@@ -52,12 +56,13 @@ import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuth0 } from '@auth0/auth0-vue'
 import GameCard from '@/components/Gamecard.vue'
+import { API_BASE_URL } from '@/api/api'
 
 // Router
 const router = useRouter()
 const { getAccessTokenSilently } = useAuth0()
 
-// 🔒 ADMIN Status
+// ADMIN Status
 const isAdmin = ref(false)
 
 // Zustand
@@ -66,12 +71,12 @@ const searchTerm = ref('')
 const selectedPlatform = ref('')
 const availablePlatforms = ref([])
 
-// 🔹 Profil laden & ADMIN prüfen
+// Profil laden & ADMIN prüfen
 const loadProfile = async () => {
   try {
     const token = await getAccessTokenSilently()
 
-    const res = await fetch('http://localhost:8081/api/profile', {
+    const res = await fetch(`${API_BASE_URL}/api/profile`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -87,10 +92,10 @@ const loadProfile = async () => {
   }
 }
 
-// 🔹 Spiele laden
+// Spiele laden
 const loadGames = async () => {
   try {
-    const response = await fetch('http://localhost:8081/api/games')
+    const response = await fetch(`${API_BASE_URL}/api/games`)
     const data = await response.json()
 
     games.value = data.map(g => ({
@@ -102,10 +107,10 @@ const loadGames = async () => {
   }
 }
 
-// 🔹 Plattformen laden
+// Plattformen laden
 const loadPlatforms = async () => {
   try {
-    const response = await fetch('http://localhost:8081/api/platforms')
+    const response = await fetch(`${API_BASE_URL}/api/platforms`)
     const data = await response.json()
     availablePlatforms.value = data.map(p => p.name)
   } catch (error) {
@@ -113,7 +118,7 @@ const loadPlatforms = async () => {
   }
 }
 
-// 🔹 Gefilterte Spiele
+// Gefilterte Spiele
 const filteredGames = computed(() => {
   return games.value.filter(game => {
     const matchesSearch = game.titel
@@ -130,12 +135,12 @@ const filteredGames = computed(() => {
   })
 })
 
-// 🔹 Navigation
+// Navigation
 const goToAddGame = () => router.push({ name: 'AddGame' })
 const goToEditGame = (game) =>
   router.push({ name: 'EditGame', params: { id: game.id } })
 
-// 🔹 On Mount
+// On Mount
 onMounted(() => {
   loadProfile()
   loadGames()
